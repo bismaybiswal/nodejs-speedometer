@@ -1,0 +1,8 @@
+This is a simple web speedometer app that runs in node.js. It's part of
+a class I am taking on Udemy on geolocation. I decided to move it to Heroku
+so I can serve the files with https. I do not want oto go through the effort
+to make a web server, get certificates, etc just to use https. Https is needed
+because most web browsers will restrict calls to navigator.geolocation.watchPosition()
+to either local files or https web locations. If you try to start the app on
+local PC with node app.js you get an error message when browsing to
+http:://<ip of my PC>:3000. If I serve it fromHeroku it will work with https.
