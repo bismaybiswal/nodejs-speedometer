@@ -1,0 +1,88 @@
+<html>
+  <head>
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+
+   // leveraged speedometer code from https://developers.google.com/chart/interactive/docs/gallery/gauge
+      google.charts.load('current', {'packages':['gauge']});
+      google.charts.setOnLoadCallback(drawChart);
+      var chart;
+      var data;
+      var options = {
+          width: 200, height: 200,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+     
+      function drawChart() {
+        chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Speed', 40],
+        ]);
+        chart.draw(data, options);
+      }
+
+       var watchID = false;
+
+        function trackPosition()
+            {
+                if (navigator.geolocation)
+                {
+                    document.getElementById("btnPosition").disabled = true;
+                    watchId = navigator.geolocation.watchPosition(successPosition, errorPosition, {
+                        enableHighAccuracy: false,
+                        timeout:5000,
+                        maximumAge: 4000
+                    });
+                }
+                else
+                    document.getElementById("result").innerHTML = "your browser does not support geolocation";
+            }
+
+        function successPosition(position)
+            {
+                var lat = position.coords.latitude;
+                var long = position.coords.longitude;
+                var acc = position.coords.accuracy;
+                var alt = position.coords.altitude;
+                var altAcc = position.coords.altitudeAccuracy;
+                var speed = position.coords.speed;
+                var timest = position.timestamp;
+                var d = new Date(timest);
+                var datePrint = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
+                                d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                document.getElementById("lat").innerHTML = lat + "  ";
+                document.getElementById("lon").innerHTML = long + " accuracy: " + acc;
+                var spd = speed || 40 + Math.round(60 * Math.random()); // don't send null to graph
+                document.getElementById("result").innerHTML = "speed: " + speed + " (" + spd + ")" + "<br>timestamp: " + datePrint;
+                data.setValue(0, 1, spd);
+                chart.draw(data, options);
+                document.getElementById("result3").innerHTML = ""; // clear error message in field 3
+            }
+
+        function errorPosition(err){
+                document.getElementById("result2").innerHTML = "<h3>Error from getPosition() " +
+                    err.code + " " + err.message + "</h3>";
+            }
+
+        function stopTracking(){
+                document.getElementById("btnPosition").disabled = false;
+                navigator.geolocation.clearWatch(watchId);
+            }
+
+    </script>
+  </head>
+
+  <body>
+    <div id="chart_div" style="width: 400px; height: 120px;"></div>
+    <br> <br> <br> <br>
+    <div> Latitude: <a id="lat"></a><br> Longitude: <a id="lon"></a></div>
+    <div id="result"></div><br>
+    <button id="btnPosition" onclick="trackPosition();">Track position</button>
+    <button id="btnQuit" onclick="stopTracking();">Stop tracking position</button>
+    <div id="result2"></div><br>
+  </body>
+
+</html>
