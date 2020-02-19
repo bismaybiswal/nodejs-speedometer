@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Jays test code",
   "main": "server.js",
+  "dependencies": {
+    "express": "latest"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
