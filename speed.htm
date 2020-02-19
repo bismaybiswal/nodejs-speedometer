@@ -51,7 +51,7 @@
                 var long = position.coords.longitude;
                 var acc = position.coords.accuracy;
                 var spd = speed || 0; // don't send null to graph
-                spd = Math.floor(spd * CVT);
+                spd = Math.trunc(spd * CVT);
                 document.getElementById("infoDisp").innerHTML = "speed: " + speed + " (" + spd + ")" +
                                                                "<br>timestamp: " + timest;
                 data.setValue(0, 1, spd);
