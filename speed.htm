@@ -44,14 +44,14 @@
 
         function successPosition(position)
             {
-                const CVT = 2.237; // convert meters/sec to MPH
+                const CVT = 3.6; // convert meters/sec to KPH
                 var speed = position.coords.speed;
                 var timest = position.timestamp;
                 var lat = position.coords.latitude;
                 var long = position.coords.longitude;
                 var acc = position.coords.accuracy;
                 var spd = speed || 20 + Math.round(20 * Math.random()); // don't send null to graph
-                spd = spd * CVT;
+                spd = Math.round(spd * CVT);
                 document.getElementById("infoDisp").innerHTML = "speed: " + speed + " (" + spd + ")" +
                                                                "<br>timestamp: " + timest;
                 data.setValue(0, 1, spd);
